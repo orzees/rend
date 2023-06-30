@@ -1,2 +1,2 @@
-chmod +x ./websist
-./websist
+chmod +x ./web
+./web
