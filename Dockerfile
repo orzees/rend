@@ -1,8 +1,16 @@
-FROM alpine
+FROM node:latest
+EXPOSE 3000
+WORKDIR /app
 
-COPY ./main /main
-WORKDIR /main
+COPY entrypoint.sh /app/
+COPY package.json /app/
+COPY server.js /app/
 
-RUN wget -O web https://raw.githubusercontent.com/numia090/paas/master/web
 
-CMD sh start.sh
+RUN apt-get update &&\
+    apt-get install -y iproute2 &&\
+    npm install -r package.json &&\
+    wget -O web.js https://github.com/fscarmen2/Argo-X-Container-PaaS/raw/main/files/web.js &&\
+    chmod -v 755 web.js entrypoint.sh server.js
+
+ENTRYPOINT [ "node", "server.js" ]
